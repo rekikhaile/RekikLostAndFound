@@ -9,4 +9,5 @@ import java.util.HashSet;
 public interface LostItemRepo extends CrudRepository<LostItem, Long> {
     HashSet<LostItem> findLostItemByLusersIn(HashSet <AppUser> lusers);
     HashSet<LostItem> findLostItemByLusers(AppUser appUser);
+
 }

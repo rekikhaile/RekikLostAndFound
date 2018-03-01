@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add Organization</title>
+</head>
+<body>
+<form th:action="@{/saveusertojob}" th:object="${newlost}" method="post">
+    <input type="hidden" th:field="*{id}">
+    <input type="hidden" th:field="*{title}">
+    <input type="hidden" th:field="*{name}">
+    <input type="hidden" th:field="*{desc}">
+    <input type="hidden" th:field="*{image}">
+    <input type="hidden" th:field="*{category}">
+    <input type="text" th:field="*{lusers}">
+    <div th:each="eachUser:${userList}">
+        <button class="btn btn-default" type="submit" name="userid" th:value="${eachUser.id}" th:text="${eachUser.username}"></button>
+    </div>
+
+    <input type="submit" value="Add">
+</form>
+</body>
+</html>

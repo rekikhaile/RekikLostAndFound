@@ -2,9 +2,11 @@ package com.rekik.lostandfound.setup;
 
 import com.rekik.lostandfound.model.AppRole;
 import com.rekik.lostandfound.model.AppUser;
+import com.rekik.lostandfound.model.Category;
 import com.rekik.lostandfound.model.LostItem;
 import com.rekik.lostandfound.repository.AppRoleRepo;
 import com.rekik.lostandfound.repository.AppUserRepo;
+import com.rekik.lostandfound.repository.CategoryRepo;
 import com.rekik.lostandfound.repository.LostItemRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,6 +22,9 @@ public class DataLoader implements CommandLineRunner{
 
     @Autowired
     LostItemRepo lostRepo;
+
+    @Autowired
+    CategoryRepo catRepo;
 
     @Override
     public void run(String... strings) throws Exception {
@@ -63,16 +68,28 @@ public class DataLoader implements CommandLineRunner{
         user.addRole(roleRepo.findAppRoleByRoleName("ADMIN"));
         userRepo.save(user);
 
+        Category cat = new Category();
+        cat.setCatName("Clothes");
+        catRepo.save(cat);
+
+        cat = new Category();
+        cat.setCatName("Pets");
+        catRepo.save(cat);
+
+        cat = new Category();
+        cat.setCatName("Other");
+        catRepo.save(cat);
+
 
         LostItem lost = new LostItem();
         lost.setTitle("Lost Pet");
         lost.setName("Kitty");
         lost.setDesc("black and white");
         lost.setImage("http://www.nurseryrhymes.org/nursery-rhymes-styles/images/john-jacob-jingleheimer-schmidt.jpg");
-        lost.setCategory("PET");
         lost.setStatus("lost");
-        //lost.addUsertoLost(userRepo.findAppUserByUsername("rekik"));
-        //lostRepo.save(lost);
+        lost.addUsertoLost(userRepo.findAppUserByUsername("rekik"));
+        lost.setCategory(catRepo.findCategoryByCatName("Pets"));
+        lostRepo.save(lost);
 
 
 

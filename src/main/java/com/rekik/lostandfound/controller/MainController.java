@@ -5,6 +5,7 @@ import com.rekik.lostandfound.model.AppUser;
 import com.rekik.lostandfound.model.LostItem;
 import com.rekik.lostandfound.repository.AppRoleRepo;
 import com.rekik.lostandfound.repository.AppUserRepo;
+import com.rekik.lostandfound.repository.CategoryRepo;
 import com.rekik.lostandfound.repository.LostItemRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,6 +30,9 @@ public class MainController {
 
     @Autowired
     LostItemRepo lostRepo;
+
+    @Autowired
+    CategoryRepo catRepo;
 
     @GetMapping("/")
     public String showIndex(Model model){
@@ -77,22 +81,90 @@ public class MainController {
         }
     }
 
-    @GetMapping("/addlost")
-    public String addPledge(Model model){
-        model.addAttribute("aLost", new LostItem());
-        return "lostform";
+    @GetMapping("/useraddlost")
+    public String userAddLost(Model model)
+    {
+        LostItem lost = new LostItem();
+        lost.setStatus("lost");
+        lostRepo.save(lost);
+        model.addAttribute("cats",catRepo.findAll());
+        model.addAttribute("newlost",lost);
+        return "useraddlost";
     }
 
-    @PostMapping("/addlost")
-    public String saveAddpledge(@Valid @ModelAttribute("aLost") LostItem lost, BindingResult result, Authentication auth)
+    @PostMapping("/useraddlost")
+    public String userSaveLost(@Valid @ModelAttribute("newlost") LostItem lost, BindingResult result, Model model)
     {
         if(result.hasErrors())
         {
-            return "lostform";
+            return "useraddlost";
         }
+
         lostRepo.save(lost);
-        AppUser currentUser =  userRepo.findAppUserByUsername(auth.getName());
+        model.addAttribute("lostlist",lostRepo.findAll());
+        //return "listlosts";
         return "redirect:/";
+
     }
+
+    @GetMapping("/addlost")
+    public String addLost(Model model)
+    {
+        LostItem lost = new LostItem();
+        lost.setStatus("lost");
+        lostRepo.save(lost);
+        model.addAttribute("cats",catRepo.findAll());
+        model.addAttribute("newlost",lost);
+        return "addlost";
+    }
+
+    @PostMapping("/addlost")
+    public String saveLost(@Valid @ModelAttribute("newlost") LostItem lost, BindingResult result, Model model)
+    {
+        if(result.hasErrors())
+        {
+            return "addlost";
+        }
+
+        lostRepo.save(lost);
+        model.addAttribute("lostlist",lostRepo.findAll());
+        //return "listlosts";
+        return "listlosts";
+
+    }
+
+    @RequestMapping("/listlosts")
+    public String listLosts(Model model)
+    {
+        model.addAttribute("lostlist",lostRepo.findAll());
+        return "listlosts";
+    }
+
+
+    @PostMapping("/addusertolost")
+    public String showUsersForLost(HttpServletRequest request, Model model)
+    {
+        String lostid = request.getParameter("lostid");
+        model.addAttribute("newlost",lostRepo.findOne(new Long(lostid)));
+
+        //Make users disappear from add form when they are already included (Set already makes it impossible to add multiple)
+        model.addAttribute("userList",userRepo.findAll());
+
+        return "adduserstolost";
+    }
+
+
+    @PostMapping("/saveusertojob")
+    public String addUsertoLost(HttpServletRequest request, @ModelAttribute("newlost") LostItem lost)
+    {
+        String userid = request.getParameter("userid");
+        System.out.println("User id from add user to lost:"+lost.getId()+" User id:"+userid);
+        lost.addUsertoLost(userRepo.findOne(new Long(userid)));
+        lostRepo.save(lost);
+        return "redirect:/listlosts";
+    }
+
+
+
 
 }

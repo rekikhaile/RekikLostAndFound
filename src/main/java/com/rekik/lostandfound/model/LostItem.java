@@ -3,7 +3,6 @@ package com.rekik.lostandfound.model;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
 @Entity
 public class LostItem {
     @Id
@@ -18,12 +17,14 @@ public class LostItem {
 
     private String image;
 
-    private String category;
-
     private String status;
 
     @ManyToMany
     Set<AppUser> lusers;
+
+    @ManyToOne
+    private Category category;
+
 
     //own method
    public void addUsertoLost(AppUser aAppUser)
@@ -34,6 +35,7 @@ public class LostItem {
 
     public LostItem() {
         this.lusers = new HashSet<>();
+        this.status = "lost";
     }
 
     public long getId() {
@@ -76,13 +78,7 @@ public class LostItem {
         this.image = image;
     }
 
-    public String getCategory() {
-        return category;
-    }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
 
     public String getStatus() {
         return status;
@@ -100,15 +96,12 @@ public class LostItem {
         this.lusers = lusers;
     }
 
-    @Override
-    public String toString() {
-        return "LostItem{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", name='" + name + '\'' +
-                ", desc='" + desc + '\'' +
-                ", category='" + category + '\'' +
-                ", status='" + status + '\'' +
-                '}';
+    public Category getCategory() {
+        return category;
     }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
 }
