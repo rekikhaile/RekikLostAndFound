@@ -81,16 +81,20 @@
     <div class="row">
       <div class="col-lg-4 ml-auto">
         <p class="lead">
+        My table
         <table>
-          <tbody><tr>
-            <td>Hi how are you</td>
-            <td>Hi how are you</td>
-            <td>Hi how are you</td>
-            <td>Hi how are you</td>
-            <td>Hi how are you</td>
-            <td>Hi how are you</td>
+          <tr th:each="eachlost:${lostlist}">
+            <td th:text="${eachlost.title}">Item</td>
+            <td th:text="${eachlost.name}">Item</td>
+            <td th:text="${eachlost.desc}">Item</td>
+            <td th:text="${eachlost.image}">Item</td>
+            <td th:if="${eachlost.lusers}!=null">
+                <span th:each = "eachUser:${eachlost.lusers}">
+                    <button class="btn btn-sm btn-close" th:text="${eachUser.username}"></button>
+                </span>
+            </td>
           </tr>
-          </tbody></table>
+        </table>
         Freelancer is a free bootstrap theme created by Start Bootstrap.
         The download includes the complete source files including HTML, CSS, and JavaScript
         as well as optional LESS stylesheets for easy customization.</p>

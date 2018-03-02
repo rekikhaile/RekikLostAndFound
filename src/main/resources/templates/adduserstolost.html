@@ -5,7 +5,7 @@
     <title>Add Organization</title>
 </head>
 <body>
-<form th:action="@{/saveusertojob}" th:object="${newlost}" method="post">
+<form th:action="@{/saveusertolost}" th:object="${newlost}" method="post">
     <input type="hidden" th:field="*{id}">
     <input type="hidden" th:field="*{title}">
     <input type="hidden" th:field="*{name}">
@@ -13,11 +13,16 @@
     <input type="hidden" th:field="*{image}">
     <input type="hidden" th:field="*{category}">
     <input type="text" th:field="*{lusers}">
+    <select name="userid">
+        <option th:each="eachUser:${userList}" th:value="${eachUser.id}" th:text="${eachUser.username}" selected="selected"></option>
+    </select>
+
+    <!--
     <div th:each="eachUser:${userList}">
         <button class="btn btn-default" type="submit" name="userid" th:value="${eachUser.id}" th:text="${eachUser.username}"></button>
     </div>
-
-    <input type="submit" value="Add">
+-->
+    <!--<input type="submit" value="Add">-->
 </form>
 </body>
 </html>

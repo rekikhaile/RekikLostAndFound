@@ -84,22 +84,23 @@ public class MainController {
     @GetMapping("/useraddlost")
     public String userAddLost(Model model)
     {
-        LostItem lost = new LostItem();
-        lost.setStatus("lost");
-        lostRepo.save(lost);
         model.addAttribute("cats",catRepo.findAll());
-        model.addAttribute("newlost",lost);
+        model.addAttribute("newlost",new LostItem());
         return "useraddlost";
     }
 
     @PostMapping("/useraddlost")
-    public String userSaveLost(@Valid @ModelAttribute("newlost") LostItem lost, BindingResult result, Model model)
+    public String userSaveLost(@Valid @ModelAttribute("newlost") LostItem lost, BindingResult result,
+                               Model model, Authentication auth)
     {
         if(result.hasErrors())
         {
             return "useraddlost";
         }
 
+        AppUser thisUser = userRepo.findAppUserByUsername(auth.getName());
+        lost.addUsertoLost(thisUser);
+        lost.setStatus("lost");
         lostRepo.save(lost);
         model.addAttribute("lostlist",lostRepo.findAll());
         //return "listlosts";
@@ -115,23 +116,36 @@ public class MainController {
         lostRepo.save(lost);
         model.addAttribute("cats",catRepo.findAll());
         model.addAttribute("newlost",lost);
+        model.addAttribute("userList",userRepo.findAll());
         return "addlost";
     }
 
     @PostMapping("/addlost")
-    public String saveLost(@Valid @ModelAttribute("newlost") LostItem lost, BindingResult result, Model model)
+    public String saveLost(HttpServletRequest request,@Valid @ModelAttribute("newlost") LostItem lost, Authentication auth, BindingResult result, Model model)
     {
         if(result.hasErrors())
         {
             return "addlost";
         }
+        String userid = request.getParameter("userid");
+        AppUser userpostedonbehalf = userRepo.findOne(new Long(userid));
+        lost.addUsertoLost(userpostedonbehalf);
+        lost.setStatus("lost");
 
         lostRepo.save(lost);
         model.addAttribute("lostlist",lostRepo.findAll());
+
         //return "listlosts";
-        return "listlosts";
+        return "test";
 
     }
+
+
+
+
+
+
+
 
     @RequestMapping("/listlosts")
     public String listLosts(Model model)
@@ -154,14 +168,15 @@ public class MainController {
     }
 
 
-    @PostMapping("/saveusertojob")
+    @PostMapping("/saveusertolost")
     public String addUsertoLost(HttpServletRequest request, @ModelAttribute("newlost") LostItem lost)
     {
         String userid = request.getParameter("userid");
         System.out.println("User id from add user to lost:"+lost.getId()+" User id:"+userid);
         lost.addUsertoLost(userRepo.findOne(new Long(userid)));
         lostRepo.save(lost);
-        return "redirect:/listlosts";
+        //return "redirect:/listlosts";
+        return "redirect:/";
     }
 
 

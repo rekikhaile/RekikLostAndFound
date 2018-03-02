@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add Organization</title>
+</head>
+<body>
+
+<table>
+    <tr th:each="eachlost:${lostlist}">
+        <td th:text="${eachlost.title}">Item</td>
+        <td th:text="${eachlost.name}">Item</td>
+        <td th:text="${eachlost.desc}">Item</td>
+        <td th:text="${eachlost.image}">Item</td>
+        <td th:if="${eachlost.lusers}!=null">
+                <span th:each = "eachUser:${eachlost.lusers}">
+                    <button class="btn btn-sm btn-close" th:text="${eachUser.username}"></button>
+                </span>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
