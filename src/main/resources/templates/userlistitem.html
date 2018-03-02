@@ -10,7 +10,7 @@
 
 <p>Hi there </p>
 <table>
-    <tr th:each="eachlost:${lostlistperuser}">
+    <tr th:each="eachlost:${lostlist}">
         <td th:text="${eachlost.title}">Item</td>
         <td th:text="${eachlost.name}">Item</td>
         <td th:text="${eachlost.desc}">Item</td>

@@ -35,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //allow to all
                 .antMatchers("/","/h2-console/**","/register","/css/**","/scss/**","/vendor/**","/js/**","/img/**").permitAll()
                 //allowed only to recruiter
-                .antMatchers("/addusertolost","/saveusertojob","/listlosts","/addlost").hasAuthority("ADMIN")
+                .antMatchers("/addusertolost","/saveusertojob","/listlosts","/addlost", "/lostitem/**","/test/**").hasAuthority("ADMIN")
                 //allowed to User and Admin
                 //.antMatchers("/useraddlost").access("hasAuthority('ADMIN') or hasAuthority('USER')")
                 .antMatchers("/useraddlost"). hasAuthority("USER")

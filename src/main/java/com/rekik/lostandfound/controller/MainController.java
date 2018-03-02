@@ -137,24 +137,38 @@ public class MainController {
 
     }
 
-
     @GetMapping("/lostitem/{id}")
     public String borrowBook(Model model, @PathVariable("id") String lostId) {
 
         LostItem lost = lostRepo.findOne(new Long(lostId));
         lost.setStatus(true);
         lostRepo.save(lost);
-
-
+        model.addAttribute("lostlist",lostRepo.findAll());
         return "test";
+    }
+
+    @GetMapping("/test")
+    public String displaytest(Model model) {
+        model.addAttribute("lostlist",lostRepo.findAll());
+
+        return "index";
     }
 
 
 
 
+    @GetMapping("/displayuserlist")
+    public String userlistdisplay(Model model, Authentication auth)
+        {
+            model.addAttribute("lostlistperuser",lostRepo.findLostItemByLusers(userRepo.findAppUserByUsername(auth.getName())));
+            return "lostlistperuser";
+
+        }
 
 
 
+
+/*
 
     @RequestMapping("/listlosts")
     public String listLosts(Model model)
@@ -187,6 +201,8 @@ public class MainController {
         //return "redirect:/listlosts";
         return "redirect:/";
     }
+*/
+
 
 
 
