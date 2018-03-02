@@ -17,7 +17,7 @@ public class LostItem {
 
     private String image;
 
-    private String status;
+    private boolean status;
 
     @ManyToMany
     Set<AppUser> lusers;
@@ -35,7 +35,7 @@ public class LostItem {
 
     public LostItem() {
         this.lusers = new HashSet<>();
-        this.status = "lost";
+        this.status = false;
     }
 
     public long getId() {
@@ -79,12 +79,11 @@ public class LostItem {
     }
 
 
-
-    public String getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

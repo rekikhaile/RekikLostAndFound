@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8"/>
     <title>Add Organization</title>
@@ -16,6 +17,26 @@
                 <span th:each = "eachUser:${eachlost.lusers}">
                     <button class="btn btn-sm btn-close" th:text="${eachUser.username}"></button>
                 </span>
+        </td>
+        <td>
+            <!--<span>
+                <button class="btn btn-sm btn-close" th:text="${eachlost.status}"></button>
+            </span>-->
+
+        <td sec:authorize="isAuthenticated()" th:text= "${eachlost.status}?'Found':'Not Yet Found'">Lost Status</td>
+
+        <td sec:authorize="hasAuthority('ADMIN')">
+            <a th:href="@{/lostitem/{id}(id=${eachlost.id})}" th:text= "${eachlost.status}?'Found':'Change to Found'"></a>
+
+        </td>
+
+
+
+<!--
+        <td sec:authorize="isAuthenticated()"> <a th:href="@{/editlost/{id}(id=${eachlost.id})}">Edit</a></td>
+-->
+
+
         </td>
     </tr>
 </table>

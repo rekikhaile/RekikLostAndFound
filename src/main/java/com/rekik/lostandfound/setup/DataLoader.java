@@ -86,7 +86,7 @@ public class DataLoader implements CommandLineRunner{
         lost.setName("Kitty");
         lost.setDesc("black and white");
         lost.setImage("http://www.nurseryrhymes.org/nursery-rhymes-styles/images/john-jacob-jingleheimer-schmidt.jpg");
-        lost.setStatus("lost");
+        lost.setStatus(false);
         lost.addUsertoLost(userRepo.findAppUserByUsername("rekik"));
         lost.setCategory(catRepo.findCategoryByCatName("Pets"));
         lostRepo.save(lost);

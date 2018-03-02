@@ -12,10 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -112,7 +109,7 @@ public class MainController {
     public String addLost(Model model)
     {
         LostItem lost = new LostItem();
-        lost.setStatus("lost");
+        //lost.setStatus("lost");
         lostRepo.save(lost);
         model.addAttribute("cats",catRepo.findAll());
         model.addAttribute("newlost",lost);
@@ -138,6 +135,18 @@ public class MainController {
         //return "listlosts";
         return "test";
 
+    }
+
+
+    @GetMapping("/lostitem/{id}")
+    public String borrowBook(Model model, @PathVariable("id") String lostId) {
+
+        LostItem lost = lostRepo.findOne(new Long(lostId));
+        lost.setStatus(true);
+        lostRepo.save(lost);
+
+
+        return "test";
     }
 
 
