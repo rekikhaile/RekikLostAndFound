@@ -100,11 +100,11 @@ public class MainController {
 
         AppUser thisUser = userRepo.findAppUserByUsername(auth.getName());
         lost.addUsertoLost(thisUser);
-        lost.setStatus("lost");
+        //lost.setStatus("lost");
         lostRepo.save(lost);
-        model.addAttribute("lostlist",lostRepo.findAll());
+        model.addAttribute("lostlistperuser",lostRepo.findLostItemByLusers(thisUser));
         //return "listlosts";
-        return "redirect:/";
+        return "lostlistperuser";
 
     }
 
@@ -130,7 +130,7 @@ public class MainController {
         String userid = request.getParameter("userid");
         AppUser userpostedonbehalf = userRepo.findOne(new Long(userid));
         lost.addUsertoLost(userpostedonbehalf);
-        lost.setStatus("lost");
+        //lost.setStatus("lost");
 
         lostRepo.save(lost);
         model.addAttribute("lostlist",lostRepo.findAll());
