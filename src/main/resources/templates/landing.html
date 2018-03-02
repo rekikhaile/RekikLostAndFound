@@ -38,14 +38,16 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navigation-example-2">
             <ul class="nav navbar-nav navbar-right">
-                <div sec:authorize="isAuthenticated()">
+                <!--<div sec:authorize="isAuthenticated()">-->
                 <li>
                     <a class="btn btn-simple" href="/register">Register</a>
                 </li>
+                <!--</div>-->
+
                 <li>
                     <a class="btn btn-simple" href="/login">Login</a>
                 </li>
-                </div>
+
                 <li>
                     <a class="btn btn-simple" href="/useraddlost">Add lost Item</a>
                 </li>
