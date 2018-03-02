@@ -34,7 +34,7 @@ public class MainController {
     @GetMapping("/")
     public String showIndex(Model model){
         model.addAttribute("losts",lostRepo.findAll());
-        return "index";
+        return "landing";
 
     }
 
@@ -153,9 +153,6 @@ public class MainController {
 
         return "index";
     }
-
-
-
 
     @GetMapping("/displayuserlist")
     public String userlistdisplay(Model model, Authentication auth)
