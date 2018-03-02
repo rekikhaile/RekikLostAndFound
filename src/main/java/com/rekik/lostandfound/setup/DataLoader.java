@@ -103,6 +103,15 @@ public class DataLoader implements CommandLineRunner{
         lostRepo.save(lost);
 
 
+        lost = new LostItem();
+        lost.setTitle("Lost Cake");
+        lost.setName("Cake");
+        lost.setDesc("black Forest");
+        lost.setStatus(false);
+        lost.addUsertoLost(userRepo.findAppUserByUsername("selam"));
+        lost.setCategory(catRepo.findCategoryByCatName("Pets"));
+        lostRepo.save(lost);
+
 
     }
 

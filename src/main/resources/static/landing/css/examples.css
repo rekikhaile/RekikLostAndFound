@@ -14,7 +14,8 @@
 
 .landing-header {
   background-size: cover;
-  min-height: 570px; }
+  min-height: 100px;
+  /*min-height: 570px; */}
 
 .landing-header .motto {
   padding-top: 8%;
