@@ -38,27 +38,39 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navigation-example-2">
             <ul class="nav navbar-nav navbar-right">
+                <div sec:authorize="isAuthenticated()">
                 <li>
                     <a class="btn btn-simple" href="/register">Register</a>
                 </li>
                 <li>
                     <a class="btn btn-simple" href="/login">Login</a>
                 </li>
+                </div>
                 <li>
                     <a class="btn btn-simple" href="/useraddlost">Add lost Item</a>
                 </li>
+                <div sec:authorize="hasAuthority('ADMIN')">
                 <li>
                     <a class="btn btn-simple" href="/addlost">Admin add lost</a>
                 </li>
+                </div>
+
+                <div sec:authorize="hasAuthority('USER')">
                 <li>
                 <a class="btn btn-simple" href="/displayuserlist">Your losts</a>
-            </li>
+                </li>
+                </div>
+
+                <div sec:authorize="hasAuthority('ADMIN')">
                 <li>
                     <a class="btn btn-simple" href="/test">Admin lost view</a>
                 </li>
+                </div>
+                <div sec:authorize="isAuthenticated()">
                 <li>
                     <a class="btn btn-simple" href="/logout">Logout</a>
                 </li>
+                </div>
 
             </ul>
         </div><!-- /.navbar-collapse -->
