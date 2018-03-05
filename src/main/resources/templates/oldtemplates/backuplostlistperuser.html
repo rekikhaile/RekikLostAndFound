@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add Organization</title>
+</head>
+<body>
+
+
+<p>Hi there </p>
+<table>
+    <tr th:each="eachlost:${lostlistperuser}">
+        <td th:text="${eachlost.title}">Item</td>
+        <td th:text="${eachlost.name}">Item</td>
+        <td th:text="${eachlost.desc}">Item</td>
+        <td><img class="listimg" width="100px" height="100px" th:src="(${eachlost.image}==null)?'https://upload.wikimedia.org/wikipedia/commons/a/a9/Vector_Book_blue.svg':${eachlost.image}"/></td>
+        <td th:if="${eachlost.lusers}!=null">
+                <span th:each = "eachUser:${eachlost.lusers}">
+                    <button class="btn btn-sm btn-close" th:text="${eachUser.username}"></button>
+                </span>
+        </td>
+        <td>
+            <!--<span>
+                <button class="btn btn-sm btn-close" th:text="${eachlost.status}"></button>
+            </span>-->
+
+        <td sec:authorize="isAuthenticated()" th:text= "${eachlost.status}?'Found':'Not Found'">Lost Status</td>
+
+        <td sec:authorize="hasAuthority('ADMIN')">
+            <a th:href="@{/lostitem/{id}(id=${eachlost.id})}" th:text= "${eachlost.status}?'Found':'Change to Found'"></a>
+
+        </td>
+
+
+
+        <!--
+                <td sec:authorize="isAuthenticated()"> <a th:href="@{/editlost/{id}(id=${eachlost.id})}">Edit</a></td>
+        -->
+
+
+        </td>
+    </tr>
+</table>
+</body>
+</html>

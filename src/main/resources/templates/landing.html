@@ -37,42 +37,39 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navigation-example-2">
-            <ul class="nav navbar-nav navbar-right">
-                <!--<div sec:authorize="isAuthenticated()">-->
+          <!--  <ul class="nav navbar-nav navbar-right">-->
+            <ul class="nav navbar-nav navbar-left">
+
+                <th:block sec:authorize="hasAuthority('USER')">
+                    <li>
+                        <a class="btn btn-simple" href="/useraddlost">Add lost Item</a>
+                    </li>
                 <li>
-                    <a class="btn btn-simple" href="/register">Register</a>
+                <a class="btn btn-simple" href="/displayuserlist">Your losts</a>
                 </li>
-                <!--</div>-->
+                </th:block>
+
+                <th:block sec:authorize="hasAuthority('ADMIN')">
+                    <li>
+                        <a class="btn btn-simple" href="/addlost">Admin add lost</a>
+                    </li>
+                </th:block>
+                <th:block sec:authorize="isAuthenticated()">
+                <li>
+                    <a class="btn btn-simple" href="/logout">Logout</a>
+                </li>
+                </th:block>
+
+                <th:block sec:authorize="isAnonymous()">
+                    <li>
+                        <a class="btn btn-simple" href="/register">Register</a>
+                    </li>
+
 
                 <li>
                     <a class="btn btn-simple" href="/login">Login</a>
                 </li>
-
-                <li>
-                    <a class="btn btn-simple" href="/useraddlost">Add lost Item</a>
-                </li>
-                <div sec:authorize="hasAuthority('ADMIN')">
-                <li>
-                    <a class="btn btn-simple" href="/addlost">Admin add lost</a>
-                </li>
-                </div>
-
-                <div sec:authorize="hasAuthority('USER')">
-                <li>
-                <a class="btn btn-simple" href="/displayuserlist">Your losts</a>
-                </li>
-                </div>
-
-                <div sec:authorize="hasAuthority('ADMIN')">
-                <li>
-                    <a class="btn btn-simple" href="/test">Admin lost view</a>
-                </li>
-                </div>
-                <div sec:authorize="isAuthenticated()">
-                <li>
-                    <a class="btn btn-simple" href="/logout">Logout</a>
-                </li>
-                </div>
+                </th:block>
 
             </ul>
         </div><!-- /.navbar-collapse -->
@@ -103,7 +100,7 @@
                         <div class="bootstrap-table"><div class="fixed-table-toolbar"><div class="bars pull-left"><div class="toolbar">
                             <!--Here you can write extra buttons/actions for the toolbar-->
                         </div></div><div class="pull-left search"><input class="form-control" type="text" placeholder="Search"></div></div><div class="fixed-table-container" style="padding-bottom: 0px;"><div class="fixed-table-header" style="display: none;"><table></table></div><div class="fixed-table-body">
-                            <table id="bootstrap-table" class="table table-hover">
+                            <table border="0" id="bootstrap-table" class="table table-hover">
                             <thead>
                             <tr>
 
@@ -111,6 +108,14 @@
                             </thead>
                             <tbody>
 
+                            <tr><td>Title</td><td>Lost item name</td><td>Lost item Description</td><td>Picture</td><td>User </td><td>Lost Status</td>
+                                <th:block td sec:authorize="hasAuthority('ADMIN')">
+                                    <td>Change Status</td>
+<!--
+                                    <td>Edit Status</td><td></td>
+-->
+                                </th:block>
+                            </tr>
 
                             <tr th:each="eachlost:${losts}">
                                 <td th:text="${eachlost.title}">Item</td>
@@ -123,23 +128,39 @@
                     <button class="btn btn-sm btn-close" th:text="${eachUser.username}"></button>
                 </span>
                                 </td>
-                                <td>
+
+
                                     <!--<span>
                                         <button class="btn btn-sm btn-close" th:text="${eachlost.status}"></button>
                                     </span>-->
 
-                                <td sec:authorize="isAuthenticated()" th:text= "${eachlost.status}?'Found':'Not Yet Found'">Lost Status</td>
-
-                                <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{/lostitem/{id}(id=${eachlost.id})}" th:text= "${eachlost.status}?'Found':'Change to Found'"></a>
+<!--
+                                <td sec:authorize="isAuthenticated()"> <button class="btn btn-sm btn-close" th:text= "${eachlost.status}?'Found':'Not Found'"></button></td>
+-->
+                               <!--<th:block sec:authorize="isAuthenticated()">-->
+                                <td>
+                                    <button th:text= "${eachlost.status}?'Found':'Not Found'"></button>
 
                                 </td>
+                              <!-- </th:block>-->
+
+
+                                <th:block sec:authorize="hasAuthority('ADMIN')">
+                                    <td>
+                                        <a th:href="@{/lostitem/{id}(id=${eachlost.id})}" th:text= "${eachlost.status}?'Found':'Change to Found'"></a>
+                                    </td>
+                                    <td>  <a th:href="@{/edititem/{id}(id=${eachlost.id})}">Edit</a> </td>
+                                    <td>  <a th:href="@{/deleteitem/{id}(id=${eachlost.id})}">Delete</a></td>
+
+
+                                </th:block>
+
 
                                 <!--
                                         <td sec:authorize="isAuthenticated()"> <a th:href="@{/editlost/{id}(id=${eachlost.id})}">Edit</a></td>
                                 -->
 
-                                </td>
+
                             </tr>
 
 

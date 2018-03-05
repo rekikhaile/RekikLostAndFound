@@ -7,6 +7,7 @@ import com.rekik.lostandfound.repository.AppRoleRepo;
 import com.rekik.lostandfound.repository.AppUserRepo;
 import com.rekik.lostandfound.repository.CategoryRepo;
 import com.rekik.lostandfound.repository.LostItemRepo;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -97,7 +98,6 @@ public class MainController {
 
         AppUser thisUser = userRepo.findAppUserByUsername(auth.getName());
         lost.addUsertoLost(thisUser);
-        //lost.setStatus("lost");
         lostRepo.save(lost);
         model.addAttribute("lostlistperuser",lostRepo.findLostItemByLusers(thisUser));
         //return "listlosts";
@@ -115,6 +115,7 @@ public class MainController {
         model.addAttribute("newlost",lost);
         model.addAttribute("userList",userRepo.findAll());
         return "addlost";
+
     }
 
     @PostMapping("/addlost")
@@ -133,7 +134,7 @@ public class MainController {
         model.addAttribute("lostlist",lostRepo.findAll());
 
         //return "listlosts";
-        return "test";
+        return "redirect:/";
 
     }
 
@@ -144,23 +145,42 @@ public class MainController {
         lost.setStatus(true);
         lostRepo.save(lost);
         model.addAttribute("lostlist",lostRepo.findAll());
-        return "test";
+        //return "test";
+        return "redirect:/";
     }
 
-    @GetMapping("/test")
+
+
+    @GetMapping("/edititem/{id}")
+    public String editLostItem(@PathVariable("id") long id, Model model){
+        model.addAttribute("editlost", lostRepo.findOne(id));
+        return "addlost";
+    }
+
+    @GetMapping("/deleteitem/{id}")
+    public String deleteLostItem(@PathVariable("id") long id){
+        lostRepo.delete(id);
+        return "redirect:/";
+    }
+
+
+    @GetMapping("/displayuserlist")
+    public String userlistdisplay(Model model, Authentication auth)
+    {
+        model.addAttribute("lostlistperuser",lostRepo.findLostItemByLusers(userRepo.findAppUserByUsername(auth.getName())));
+        return "lostlistperuser";
+
+    }
+
+
+
+    /*@GetMapping("/test")
     public String displaytest(Model model) {
         model.addAttribute("lostlist",lostRepo.findAll());
 
         return "index";
-    }
+    }*/
 
-    @GetMapping("/displayuserlist")
-    public String userlistdisplay(Model model, Authentication auth)
-        {
-            model.addAttribute("lostlistperuser",lostRepo.findLostItemByLusers(userRepo.findAppUserByUsername(auth.getName())));
-            return "lostlistperuser";
-
-        }
 
 
 
