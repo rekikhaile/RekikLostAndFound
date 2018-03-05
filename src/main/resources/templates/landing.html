@@ -101,7 +101,7 @@
                             <!--Here you can write extra buttons/actions for the toolbar-->
                         </div></div><div class="pull-left search"><input class="form-control" type="text" placeholder="Search"></div></div><div class="fixed-table-container" style="padding-bottom: 0px;"><div class="fixed-table-header" style="display: none;"><table></table></div><div class="fixed-table-body">
 
-
+                            <th:block td sec:authorize="hasAuthority('ADMIN')">
                             <table border="0" id="bootstrap-table" class="table table-hover">
                             <thead>
                             <tr>
@@ -157,12 +157,11 @@
                             </tr>
 
                             </table>
+                            </th:block>
 
 
 
-                          <!--  <th:block td sec:authorize="hasAuthority('USER')">
-
-                                <div th:each="thelost:${losts}" th:if="${thelost.status}">
+                         <th:block td sec:authorize="hasAuthority('USER')">
 
                             <table border="0" id="bootstrap-table" class="table table-hover">
                                 <thead>
@@ -179,7 +178,7 @@
                                     </th:block>
                                 </tr>
 
-                                <tr th:each="eachlost:${losts}">
+                                <tr th:each="eachlost:${foundlost}">
 
                                     <td th:text="${eachlost.title}">Item</td>
                                     <td th:text="${eachlost.name}">Item</td>
@@ -192,7 +191,7 @@
                                     </td>
 
 
-                                    &lt;!&ndash;<th:block sec:authorize="isAuthenticated()">&ndash;&gt;
+                                   <!--<th:block sec:authorize="isAuthenticated()">-->
                                     <th:block td sec:authorize="hasAuthority('ADMIN')">
                                         <td>
                                             <button th:text= "${eachlost.status}?'Found':'Not Found'"></button>
@@ -217,8 +216,68 @@
                                 </tr>
 
                             </table>
-                                </div>
-                            </th:block>-->
+
+                            </th:block>
+
+
+                            <th:block td sec:authorize="isAnonymous()">
+                                <!--<th:block sec:authorize="isAuthenticated()">-->
+
+                                <table border="0" id="bootstrap-table" class="table table-hover">
+                                    <thead>
+                                    <tr>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr><td>Title</td><td>Lost item name</td><td>Lost item Description</td><td>Picture</td><td>User </td>
+                                        <th:block td sec:authorize="hasAuthority('ADMIN')">
+                                            <td>Lost Status</td>
+                                            <td>Change Status</td>
+                                        </th:block>
+                                    </tr>
+
+                                    <tr th:each="eachlost:${foundlost}">
+
+                                        <td th:text="${eachlost.title}">Item</td>
+                                        <td th:text="${eachlost.name}">Item</td>
+                                        <td th:text="${eachlost.desc}">Item</td>
+                                        <td><img class="listimg" width="100px" height="100px" th:src="(${eachlost.image}==null)?'https://upload.wikimedia.org/wikipedia/commons/a/a9/Vector_Book_blue.svg':${eachlost.image}"/></td>
+                                        <td th:if="${eachlost.lusers}!=null">
+                <span th:each = "eachUser:${eachlost.lusers}">
+                    <button class="btn btn-sm btn-close" th:text="${eachUser.username}"></button>
+                </span>
+                                        </td>
+
+
+                                        <!--<th:block sec:authorize="isAuthenticated()">-->
+                                        <th:block td sec:authorize="hasAuthority('ADMIN')">
+                                            <td>
+                                                <button th:text= "${eachlost.status}?'Found':'Not Found'"></button>
+
+                                            </td>
+                                        </th:block>
+
+
+                                        <th:block sec:authorize="hasAuthority('ADMIN')">
+                                            <td>
+                                                <a th:href="@{/lostitem/{id}(id=${eachlost.id})}" th:text= "${eachlost.status}?'Change to Lost':'Change to Found'"></a>
+                                            </td>
+
+
+
+                                            <td>  <a th:href="@{/edititem/{id}(id=${eachlost.id})}">Edit</a> </td>
+                                            <td>  <a th:href="@{/deleteitem/{id}(id=${eachlost.id})}">Delete</a></td>
+
+
+                                        </th:block>
+
+                                    </tr>
+
+                                </table>
+
+                            </th:block>
 
 
                         </div><div class="fixed-table-footer" style="display: none;"><table><tbody><tr></tr></tbody></table></div><div class="fixed-table-pagination"></div></div></div>

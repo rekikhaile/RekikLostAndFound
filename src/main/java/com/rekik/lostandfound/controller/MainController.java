@@ -35,6 +35,7 @@ public class MainController {
     @GetMapping("/")
     public String showIndex(Model model){
         model.addAttribute("losts",lostRepo.findAll());
+        model.addAttribute("foundlost",lostRepo.findByStatus(false));
         return "landing";
 
     }
@@ -146,6 +147,7 @@ public class MainController {
         lost.setStatus(!lost.isStatus());
         lostRepo.save(lost);
         model.addAttribute("lostlist",lostRepo.findAll());
+        model.addAttribute("foundlost",lostRepo.findByStatus(false));
         return "redirect:/";
     }
 

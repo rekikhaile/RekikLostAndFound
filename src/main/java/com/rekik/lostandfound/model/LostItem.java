@@ -12,7 +12,6 @@ public class LostItem {
 
     private String title;
 
-    @NotNull
     private String name;
 
     private String desc;
