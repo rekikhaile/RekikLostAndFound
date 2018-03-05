@@ -101,6 +101,7 @@
                             <!--Here you can write extra buttons/actions for the toolbar-->
                         </div></div><div class="pull-left search"><input class="form-control" type="text" placeholder="Search"></div></div><div class="fixed-table-container" style="padding-bottom: 0px;"><div class="fixed-table-header" style="display: none;"><table></table></div><div class="fixed-table-body">
 
+                        <!--Rekik Haile lost and found-->
                             <th:block td sec:authorize="hasAuthority('ADMIN')">
                             <table border="0" id="bootstrap-table" class="table table-hover">
                             <thead>
@@ -124,8 +125,11 @@
                                 <td th:text="${eachlost.title}">Item</td>
                                 <td th:text="${eachlost.name}">Item</td>
                                 <td th:text="${eachlost.desc}">Item</td>
+<!--
                                 <td><img class="listimg" width="100px" height="100px" th:src="(${eachlost.image}==null)?'https://upload.wikimedia.org/wikipedia/commons/a/a9/Vector_Book_blue.svg':${eachlost.image}"/></td>
+-->
                                <!-- <td th:text="${eachlost.image}">Item</td>-->
+                                <td><img class="listimg" width="100px" height="100px" th:src="(${eachlost.image}==null)?'/imgriri/doggy.jpg':${eachlost.image}"/></td>
                                 <td th:if="${eachlost.lusers}!=null">
                 <span th:each = "eachUser:${eachlost.lusers}">
                     <button class="btn btn-sm btn-close" th:text="${eachUser.username}"></button>
@@ -183,7 +187,7 @@
                                     <td th:text="${eachlost.title}">Item</td>
                                     <td th:text="${eachlost.name}">Item</td>
                                     <td th:text="${eachlost.desc}">Item</td>
-                                    <td><img class="listimg" width="100px" height="100px" th:src="(${eachlost.image}==null)?'https://upload.wikimedia.org/wikipedia/commons/a/a9/Vector_Book_blue.svg':${eachlost.image}"/></td>
+                                    <td><img class="listimg" width="100px" height="100px" th:src="(${eachlost.image}==null)?'/imgriri/doggy.jpg':${eachlost.image}"/></td>
                                     <td th:if="${eachlost.lusers}!=null">
                 <span th:each = "eachUser:${eachlost.lusers}">
                     <button class="btn btn-sm btn-close" th:text="${eachUser.username}"></button>
@@ -243,7 +247,7 @@
                                         <td th:text="${eachlost.title}">Item</td>
                                         <td th:text="${eachlost.name}">Item</td>
                                         <td th:text="${eachlost.desc}">Item</td>
-                                        <td><img class="listimg" width="100px" height="100px" th:src="(${eachlost.image}==null)?'https://upload.wikimedia.org/wikipedia/commons/a/a9/Vector_Book_blue.svg':${eachlost.image}"/></td>
+                                        <td><img class="listimg" width="100px" height="100px" th:src="(${eachlost.image}==null)?'/imgriri/doggy.jpg':${eachlost.image}"/></td>
                                         <td th:if="${eachlost.lusers}!=null">
                 <span th:each = "eachUser:${eachlost.lusers}">
                     <button class="btn btn-sm btn-close" th:text="${eachUser.username}"></button>

@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 //allow to all
-                .antMatchers("/","/test/**","/displayuserlist","/h2-console/**","/register","/css/**",
+                .antMatchers("/", "/imgriri/**",  "/test/**","/displayuserlist","/h2-console/**","/register","/css/**",
                         "/sass/**","/js/**","/img/**","/fonts/**","/landing/**","/bootstrap3/**").permitAll()
                 //allowed only to recruiter
                 .antMatchers("/listlosts","/addlost", "/lostitem/**", "/edititem/**", "/deleteitem/**").hasAuthority("ADMIN")
