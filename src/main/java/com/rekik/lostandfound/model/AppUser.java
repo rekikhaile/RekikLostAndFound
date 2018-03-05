@@ -32,6 +32,9 @@ public class AppUser {
     @ManyToMany(mappedBy = "lusers")
     private Set<LostItem> losts;
 
+    /*@ManyToMany(mappedBy = "lusers")
+    private Set<LostItem> losts;*/
+
     //own method
     public void addRole(AppRole role)
     {

@@ -1,6 +1,7 @@
 package com.rekik.lostandfound.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 @Entity
@@ -11,6 +12,7 @@ public class LostItem {
 
     private String title;
 
+    @NotNull
     private String name;
 
     private String desc;
@@ -21,6 +23,10 @@ public class LostItem {
 
     @ManyToMany
     Set<AppUser> lusers;
+
+/*
+    @ManyToMany
+    Set<AppUser> lusers;*/
 
     @ManyToOne
     private Category category;

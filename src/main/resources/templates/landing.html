@@ -100,6 +100,8 @@
                         <div class="bootstrap-table"><div class="fixed-table-toolbar"><div class="bars pull-left"><div class="toolbar">
                             <!--Here you can write extra buttons/actions for the toolbar-->
                         </div></div><div class="pull-left search"><input class="form-control" type="text" placeholder="Search"></div></div><div class="fixed-table-container" style="padding-bottom: 0px;"><div class="fixed-table-header" style="display: none;"><table></table></div><div class="fixed-table-body">
+
+
                             <table border="0" id="bootstrap-table" class="table table-hover">
                             <thead>
                             <tr>
@@ -108,8 +110,9 @@
                             </thead>
                             <tbody>
 
-                            <tr><td>Title</td><td>Lost item name</td><td>Lost item Description</td><td>Picture</td><td>User </td><td>Lost Status</td>
+                            <tr><td>Title</td><td>Lost item name</td><td>Lost item Description</td><td>Picture</td><td>User </td>
                                 <th:block td sec:authorize="hasAuthority('ADMIN')">
+                                    <td>Lost Status</td>
                                     <td>Change Status</td>
 <!--
                                     <td>Edit Status</td><td></td>
@@ -130,52 +133,92 @@
                                 </td>
 
 
-                                    <!--<span>
-                                        <button class="btn btn-sm btn-close" th:text="${eachlost.status}"></button>
-                                    </span>-->
-
-<!--
-                                <td sec:authorize="isAuthenticated()"> <button class="btn btn-sm btn-close" th:text= "${eachlost.status}?'Found':'Not Found'"></button></td>
--->
                                <!--<th:block sec:authorize="isAuthenticated()">-->
+                                <th:block td sec:authorize="hasAuthority('ADMIN')">
                                 <td>
                                     <button th:text= "${eachlost.status}?'Found':'Not Found'"></button>
 
                                 </td>
-                              <!-- </th:block>-->
+                              </th:block>
 
 
                                 <th:block sec:authorize="hasAuthority('ADMIN')">
                                     <td>
-                                        <a th:href="@{/lostitem/{id}(id=${eachlost.id})}" th:text= "${eachlost.status}?'Found':'Change to Found'"></a>
+                                        <a th:href="@{/lostitem/{id}(id=${eachlost.id})}" th:text= "${eachlost.status}?'Change to Lost':'Change to Found'"></a>
                                     </td>
+
+
+
                                     <td>  <a th:href="@{/edititem/{id}(id=${eachlost.id})}">Edit</a> </td>
                                     <td>  <a th:href="@{/deleteitem/{id}(id=${eachlost.id})}">Delete</a></td>
 
 
                                 </th:block>
-
-
-                                <!--
-                                        <td sec:authorize="isAuthenticated()"> <a th:href="@{/editlost/{id}(id=${eachlost.id})}">Edit</a></td>
-                                -->
-
-
                             </tr>
 
-
-                            <!--<tr data-index="0">-->
-
+                            </table>
 
 
-                                <!--&lt;!&ndash;<td class="bs-checkbox">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<input data-index="0" name="btSelectItem" type="checkbox"></td>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<td class="text-center" style="">1</td><td style="">Dakota Rice</td><td style="">$36,738</td><td style="">Niger</td><td style="">Oud-Turnhout</td><td class="td-actions text-right" style=""><div class="table-icons"><a rel="tooltip" title="" class="btn btn-simple btn-info btn-icon table-action view" href="javascript:void(0)" data-original-title="View"><i class="ti-image"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-warning btn-icon table-action edit" href="javascript:void(0)" data-original-title="Edit"><i class="ti-pencil-alt"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-danger btn-icon table-action remove" href="javascript:void(0)" data-original-title="Remove"><i class="ti-close"></i></a></div></td>&ndash;&gt;-->
-                            <!--</tr>-->
+
+                          <!--  <th:block td sec:authorize="hasAuthority('USER')">
+
+                                <div th:each="thelost:${losts}" th:if="${thelost.status}">
+
+                            <table border="0" id="bootstrap-table" class="table table-hover">
+                                <thead>
+                                <tr>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr><td>Title</td><td>Lost item name</td><td>Lost item Description</td><td>Picture</td><td>User </td>
+                                    <th:block td sec:authorize="hasAuthority('ADMIN')">
+                                        <td>Lost Status</td>
+                                        <td>Change Status</td>
+                                    </th:block>
+                                </tr>
+
+                                <tr th:each="eachlost:${losts}">
+
+                                    <td th:text="${eachlost.title}">Item</td>
+                                    <td th:text="${eachlost.name}">Item</td>
+                                    <td th:text="${eachlost.desc}">Item</td>
+                                    <td><img class="listimg" width="100px" height="100px" th:src="(${eachlost.image}==null)?'https://upload.wikimedia.org/wikipedia/commons/a/a9/Vector_Book_blue.svg':${eachlost.image}"/></td>
+                                    <td th:if="${eachlost.lusers}!=null">
+                <span th:each = "eachUser:${eachlost.lusers}">
+                    <button class="btn btn-sm btn-close" th:text="${eachUser.username}"></button>
+                </span>
+                                    </td>
 
 
-                            <!--<tr data-index="1"><td class="bs-checkbox"><input data-index="1" name="btSelectItem" type="checkbox"></td><td class="text-center" style="">2</td><td style="">Minerva Hooper</td><td style="">$23,789</td><td style="">Curaçao</td><td style="">Sinaai-Waas</td><td class="td-actions text-right" style=""><div class="table-icons"><a rel="tooltip" title="" class="btn btn-simple btn-info btn-icon table-action view" href="javascript:void(0)" data-original-title="View"><i class="ti-image"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-warning btn-icon table-action edit" href="javascript:void(0)" data-original-title="Edit"><i class="ti-pencil-alt"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-danger btn-icon table-action remove" href="javascript:void(0)" data-original-title="Remove"><i class="ti-close"></i></a></div></td></tr><tr data-index="2"><td class="bs-checkbox"><input data-index="2" name="btSelectItem" type="checkbox"></td><td class="text-center" style="">3</td><td style="">Sage Rodriguez</td><td style="">$56,142</td><td style="">Netherlands</td><td style="">Baileux</td><td class="td-actions text-right" style=""><div class="table-icons"><a rel="tooltip" title="" class="btn btn-simple btn-info btn-icon table-action view" href="javascript:void(0)" data-original-title="View"><i class="ti-image"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-warning btn-icon table-action edit" href="javascript:void(0)" data-original-title="Edit"><i class="ti-pencil-alt"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-danger btn-icon table-action remove" href="javascript:void(0)" data-original-title="Remove"><i class="ti-close"></i></a></div></td></tr><tr data-index="3"><td class="bs-checkbox"><input data-index="3" name="btSelectItem" type="checkbox"></td><td class="text-center" style="">4</td><td style="">Philip Chaney</td><td style="">$38,735</td><td style="">Korea, South</td><td style="">Overland Park</td><td class="td-actions text-right" style=""><div class="table-icons"><a rel="tooltip" title="" class="btn btn-simple btn-info btn-icon table-action view" href="javascript:void(0)" data-original-title="View"><i class="ti-image"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-warning btn-icon table-action edit" href="javascript:void(0)" data-original-title="Edit"><i class="ti-pencil-alt"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-danger btn-icon table-action remove" href="javascript:void(0)" data-original-title="Remove"><i class="ti-close"></i></a></div></td></tr><tr data-index="4"><td class="bs-checkbox"><input data-index="4" name="btSelectItem" type="checkbox"></td><td class="text-center" style="">5</td><td style="">Doris Greene</td><td style="">$63,542</td><td style="">Malawi</td><td style="">Feldkirchen in Kärnten</td><td class="td-actions text-right" style=""><div class="table-icons"><a rel="tooltip" title="" class="btn btn-simple btn-info btn-icon table-action view" href="javascript:void(0)" data-original-title="View"><i class="ti-image"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-warning btn-icon table-action edit" href="javascript:void(0)" data-original-title="Edit"><i class="ti-pencil-alt"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-danger btn-icon table-action remove" href="javascript:void(0)" data-original-title="Remove"><i class="ti-close"></i></a></div></td></tr><tr data-index="5"><td class="bs-checkbox"><input data-index="5" name="btSelectItem" type="checkbox"></td><td class="text-center" style="">6</td><td style="">Mason Porter</td><td style="">$78,615</td><td style="">Chile</td><td style="">Gloucester</td><td class="td-actions text-right" style=""><div class="table-icons"><a rel="tooltip" title="" class="btn btn-simple btn-info btn-icon table-action view" href="javascript:void(0)" data-original-title="View"><i class="ti-image"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-warning btn-icon table-action edit" href="javascript:void(0)" data-original-title="Edit"><i class="ti-pencil-alt"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-danger btn-icon table-action remove" href="javascript:void(0)" data-original-title="Remove"><i class="ti-close"></i></a></div></td></tr><tr data-index="6"><td class="bs-checkbox"><input data-index="6" name="btSelectItem" type="checkbox"></td><td class="text-center" style="">7</td><td style="">Alden Chen</td><td style="">$63,929</td><td style="">Finland</td><td style="">Gary</td><td class="td-actions text-right" style=""><div class="table-icons"><a rel="tooltip" title="" class="btn btn-simple btn-info btn-icon table-action view" href="javascript:void(0)" data-original-title="View"><i class="ti-image"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-warning btn-icon table-action edit" href="javascript:void(0)" data-original-title="Edit"><i class="ti-pencil-alt"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-danger btn-icon table-action remove" href="javascript:void(0)" data-original-title="Remove"><i class="ti-close"></i></a></div></td></tr><tr data-index="7"><td class="bs-checkbox"><input data-index="7" name="btSelectItem" type="checkbox"></td><td class="text-center" style="">8</td><td style="">Colton Hodges</td><td style="">$93,961</td><td style="">Nicaragua</td><td style="">Delft</td><td class="td-actions text-right" style=""><div class="table-icons"><a rel="tooltip" title="" class="btn btn-simple btn-info btn-icon table-action view" href="javascript:void(0)" data-original-title="View"><i class="ti-image"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-warning btn-icon table-action edit" href="javascript:void(0)" data-original-title="Edit"><i class="ti-pencil-alt"></i></a><a rel="tooltip" title="" class="btn btn-simple btn-danger btn-icon table-action remove" href="javascript:void(0)" data-original-title="Remove"><i class="ti-close"></i></a></div></td></tr></tbody>-->
-                        </table>
+                                    &lt;!&ndash;<th:block sec:authorize="isAuthenticated()">&ndash;&gt;
+                                    <th:block td sec:authorize="hasAuthority('ADMIN')">
+                                        <td>
+                                            <button th:text= "${eachlost.status}?'Found':'Not Found'"></button>
+
+                                        </td>
+                                    </th:block>
+
+
+                                    <th:block sec:authorize="hasAuthority('ADMIN')">
+                                        <td>
+                                            <a th:href="@{/lostitem/{id}(id=${eachlost.id})}" th:text= "${eachlost.status}?'Change to Lost':'Change to Found'"></a>
+                                        </td>
+
+
+
+                                        <td>  <a th:href="@{/edititem/{id}(id=${eachlost.id})}">Edit</a> </td>
+                                        <td>  <a th:href="@{/deleteitem/{id}(id=${eachlost.id})}">Delete</a></td>
+
+
+                                    </th:block>
+
+                                </tr>
+
+                            </table>
+                                </div>
+                            </th:block>-->
 
 
                         </div><div class="fixed-table-footer" style="display: none;"><table><tbody><tr></tr></tbody></table></div><div class="fixed-table-pagination"></div></div></div>

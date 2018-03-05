@@ -139,13 +139,13 @@ public class MainController {
     }
 
     @GetMapping("/lostitem/{id}")
-    public String borrowBook(Model model, @PathVariable("id") String lostId) {
+    public String changeLostStatus(Model model, @PathVariable("id") String lostId) {
 
         LostItem lost = lostRepo.findOne(new Long(lostId));
-        lost.setStatus(true);
+        //hmmm
+        lost.setStatus(!lost.isStatus());
         lostRepo.save(lost);
         model.addAttribute("lostlist",lostRepo.findAll());
-        //return "test";
         return "redirect:/";
     }
 
@@ -153,7 +153,9 @@ public class MainController {
 
     @GetMapping("/edititem/{id}")
     public String editLostItem(@PathVariable("id") long id, Model model){
-        model.addAttribute("editlost", lostRepo.findOne(id));
+        model.addAttribute("cats",catRepo.findAll());
+        model.addAttribute("userList",userRepo.findAll());
+        model.addAttribute("newlost", lostRepo.findOne(id));
         return "addlost";
     }
 

@@ -135,7 +135,7 @@
                             <option th:each="eachCat:${cats}" th:value="${eachCat.id}" th:text="${eachCat.catName}" th:selected="*{category}"></option>
                         </select>
 
-                      <input type="text" th:field="*{lusers}">
+                      <input type="hidden" th:field="*{lusers}">
                          <select name="userid">
                      <option th:each="eachUser:${userList}" th:value="${eachUser.id}" th:text="${eachUser.username}" selected="selected"></option>
                     </select>

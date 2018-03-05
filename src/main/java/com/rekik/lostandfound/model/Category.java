@@ -1,9 +1,7 @@
 package com.rekik.lostandfound.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Category {
@@ -13,6 +11,9 @@ public class Category {
     private long id;
 
     private String catName;
+
+    @OneToMany(mappedBy = "category")
+    private Set<LostItem> losts;
 
     public long getId() {
         return id;

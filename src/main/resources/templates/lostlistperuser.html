@@ -105,7 +105,7 @@
                             <table border="0" id="bootstrap-table" class="table table-hover">
                                 <tr><td>Title</td><td>Lost item name</td><td>Lost item Description</td><td>Picture</td><td>User </td><td>Lost Status</td>
                                     <th:block td sec:authorize="hasAuthority('ADMIN')">
-                                        <td>Change Status</td><td>Edit</td><td>Admin</td>
+                                        <td>Change Status</td><td>Edit</td><td>Delete</td>
                                     </th:block>
                                 </tr>
                                 <tr th:each="eachlost:${lostlistperuser}">
