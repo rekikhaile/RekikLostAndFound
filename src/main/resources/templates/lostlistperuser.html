@@ -112,7 +112,24 @@
                                     <td th:text="${eachlost.title}">Item</td>
                                     <td th:text="${eachlost.name}">Item</td>
                                     <td th:text="${eachlost.desc}">Item</td>
-                                    <td><img class="listimg" width="100px" height="100px" th:src="(${eachlost.image}==null)?'/imgriri/doggy.jpg':${eachlost.image}"/></td>
+
+                                  <!--  <td>
+                                        <img  width="100px" height="100px" th:if="${eachlost.getImage() =='' }" src="/imgriri/doggy.jpg">
+                                    &lt;!&ndash;<td><img class="listimg" width="100px" height="100px" th:src="(${eachlost.image}==null)?'/imgriri/doggy.jpg':${eachlost.image}"/></td>&ndash;&gt;
+                                    <img  width="100px" height="100px" th:src="${eachlost.image}" alt="">
+
+                                    </td>-->
+
+                                    <td>
+                                        <img  width="100px" height="100px" th:if="${eachlost.category.id eq 1  and eachlost.image =='' }" src="/imgriri/clothes.png">
+                                        <img  width="100px" height="100px" th:if="${eachlost.category.id eq 2  and eachlost.image =='' }" src="/imgriri/doggy.jpg">
+                                        <img  width="100px" height="100px" th:if="${eachlost.category.id eq 3  and eachlost.image ==null }" src="/imgriri/lostnfnd.jpg">
+                                        <img  width="100px" height="100px" th:if="${eachlost.category.id eq 3  and eachlost.image =='' }" src="/imgriri/lostnfnd.jpg">
+
+                                        <img  width="100px" height="100px" th:src="${eachlost.image}" alt="">
+                                    </td>
+
+
                                     <td th:if="${eachlost.lusers}!=null">
                 <span th:each = "eachUser:${eachlost.lusers}">
                     <button class="btn btn-sm btn-close" th:text="${eachUser.username}"></button>
