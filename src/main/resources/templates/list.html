@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List Items</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">Item List</h1>
+    <div class="col-md-8 col-md-offset-4">
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Title</th>
+
+                </tr>
+
+            </thead>
+            <tbody>
+
+            <div th:if="${searchval}!=null" th:inline="text">You searched for [[${searchval}]]</div>
+
+                <tr th:each="lostitem :${lostitems}">
+                    <td th:text ="${lostitem.title}">Some test text here</td>
+                    <!--<td>
+                        <a th:href ="@{/update/{id}(id=${course.id})}">Update</a>-
+                        <a th:href ="@{/detail/{id}(id=${course.id})}">Details</a>-
+                        <a th:href ="@{/delete/{id}(id=${course.id})}">Delete</a>
+                    </td>-->
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</div>
+</body>
+</html>

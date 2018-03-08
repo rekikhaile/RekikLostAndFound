@@ -2,6 +2,7 @@ package com.rekik.lostandfound.controller;
 
 import com.rekik.lostandfound.model.AppRole;
 import com.rekik.lostandfound.model.AppUser;
+import com.rekik.lostandfound.model.Category;
 import com.rekik.lostandfound.model.LostItem;
 import com.rekik.lostandfound.repository.AppRoleRepo;
 import com.rekik.lostandfound.repository.AppUserRepo;
@@ -111,7 +112,7 @@ public class MainController {
     {
         LostItem lost = new LostItem();
         //lost.setStatus("lost");
-        lostRepo.save(lost);
+      //  lostRepo.save(lost);
         model.addAttribute("cats",catRepo.findAll());
         model.addAttribute("newlost",lost);
         model.addAttribute("userList",userRepo.findAll());
@@ -119,22 +120,34 @@ public class MainController {
 
     }
 
-    @PostMapping("/addlost")
-    public String saveLost(HttpServletRequest request,@Valid @ModelAttribute("newlost") LostItem lost, Authentication auth, BindingResult result, Model model)
+
+
+
+            @PostMapping("/addlost")
+    public String saveLost(@Valid @ModelAttribute("newlost") LostItem lost,
+                HttpServletRequest request,Authentication auth, BindingResult result, Model model)
     {
         if(result.hasErrors())
         {
             return "addlost";
         }
+
+       String anonymoususer = request.getParameter("anonymoususer");
+        //* if(anonymoususer.equals("anony")){*//*
+        if(anonymoususer!=null){
+
+            lostRepo.save(lost);
+            return "redirect:/";
+        }
+
         String userid = request.getParameter("userid");
         AppUser userpostedonbehalf = userRepo.findOne(new Long(userid));
         lost.addUsertoLost(userpostedonbehalf);
         //lost.setStatus("lost");
-
         lostRepo.save(lost);
         model.addAttribute("lostlist",lostRepo.findAll());
-
-        //return "listlosts";
+       /* model.addAttribute("losts",lostRepo.findAll());
+        model.addAttribute("foundlost",lostRepo.findByStatus(false));*/
         return "redirect:/";
 
     }
@@ -155,9 +168,9 @@ public class MainController {
 
     @GetMapping("/edititem/{id}")
     public String editLostItem(@PathVariable("id") long id, Model model){
+        model.addAttribute("newlost", lostRepo.findOne(id));
         model.addAttribute("cats",catRepo.findAll());
         model.addAttribute("userList",userRepo.findAll());
-        model.addAttribute("newlost", lostRepo.findOne(id));
         return "addlost";
     }
 
@@ -177,52 +190,47 @@ public class MainController {
     }
 
 
+    @GetMapping("/searchbycategory")
+    public String getSearch()
+    {
+        return "searchbycategory";
+    }
 
-    /*@GetMapping("/test")
-    public String displaytest(Model model) {
-        model.addAttribute("lostlist",lostRepo.findAll());
+    @PostMapping("/searchbycategory")
+    public String showSearchResults(HttpServletRequest request, Model model)
+    {
+        //Get the search string from the result form
+        String searchString = request.getParameter("searchval");
+        model.addAttribute("searchval",searchString);
+        model.addAttribute("lostitems",lostRepo.findAllByCategoryCatNameContainingIgnoreCase(searchString));
+        return "list";
+    }
 
-        return "index";
+
+
+   /* @GetMapping("/showlostclothes")
+    public String showLostClothes(Model model)
+    {
+        model.addAttribute("lostlist", lostRepo.findAllByCategoryCatNameContainingIgnoreCase(Category c))
+        model.addAttribute("lostList",lostAndFound.findByCategory(lostAndFound.findCategory("Clothes")));
+        return "listitems";
+    }
+
+    @GetMapping("/showlostothers")
+    public String showLostOthers(Model model)
+    {
+        model.addAttribute("lostList",lostAndFound.findByCategory(lostAndFound.findCategory("Others")));
+        return "listitems";
+    }
+
+    @GetMapping("/showlostpets")
+    public String showLostPets(Model model)
+    {
+        model.addAttribute("lostList",lostAndFound.findByCategory(lostAndFound.findCategory("Pets")));
+        return "listitems";
     }*/
 
 
-
-
-
-/*
-
-    @RequestMapping("/listlosts")
-    public String listLosts(Model model)
-    {
-        model.addAttribute("lostlist",lostRepo.findAll());
-        return "listlosts";
-    }
-
-
-    @PostMapping("/addusertolost")
-    public String showUsersForLost(HttpServletRequest request, Model model)
-    {
-        String lostid = request.getParameter("lostid");
-        model.addAttribute("newlost",lostRepo.findOne(new Long(lostid)));
-
-        //Make users disappear from add form when they are already included (Set already makes it impossible to add multiple)
-        model.addAttribute("userList",userRepo.findAll());
-
-        return "adduserstolost";
-    }
-
-
-    @PostMapping("/saveusertolost")
-    public String addUsertoLost(HttpServletRequest request, @ModelAttribute("newlost") LostItem lost)
-    {
-        String userid = request.getParameter("userid");
-        System.out.println("User id from add user to lost:"+lost.getId()+" User id:"+userid);
-        lost.addUsertoLost(userRepo.findOne(new Long(userid)));
-        lostRepo.save(lost);
-        //return "redirect:/listlosts";
-        return "redirect:/";
-    }
-*/
 
 
 
